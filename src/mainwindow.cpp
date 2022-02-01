@@ -29,8 +29,14 @@ void MainWindow::on_actionOpen_triggered()
 void MainWindow::on_actionPlay_triggered()
 {
   m_player->play();
-  m_player->setVolume(50);
-  m_spinboxVolume->setValue(50);
+
+  if (!(this->getFirstPlay()))
+  {
+    this->setFirstPlay(true);
+    m_player->setVolume(50);
+    m_spinboxVolume->setValue(50);
+  }
+
   ui->statusbar->showMessage("Playing");
 }
 
@@ -44,7 +50,7 @@ void MainWindow::on_actionPause_triggered()
 
 void MainWindow::on_actionStop_triggered()
 {
-  m_player->pause();
+  m_player->stop();
   ui->statusbar->showMessage("Stopped");
 }
 
@@ -56,6 +62,16 @@ void MainWindow::mute()
     m_player->setMuted(true);
 }
 
+void MainWindow::setFirstPlay(bool newFirstPlay)
+{
+  firstPlay = newFirstPlay;
+}
+
+bool MainWindow::getFirstPlay() const
+{
+  return firstPlay;
+}
+
 void MainWindow::init()
 {
   this->createMediaOutput();
@@ -64,6 +80,9 @@ void MainWindow::init()
 
   //setup volume
   this->setupVolumeBox();
+
+  // initialize playing status for first time
+  this->setFirstPlay(false);
 
   this->createSignalSlots();
   this->setWindowTitle("Media Player");

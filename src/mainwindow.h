@@ -25,6 +25,10 @@ class MainWindow : public QMainWindow {
   MainWindow(QWidget* parent = nullptr);
   ~MainWindow();
 
+  bool getFirstPlay() const;
+
+  void setFirstPlay(bool newFirstPlay);
+
  private slots:
   void on_actionOpen_triggered();
   void on_actionPlay_triggered();
@@ -36,6 +40,7 @@ class MainWindow : public QMainWindow {
   Ui::MainWindow* ui;
   const int maxVolume;
   const int minVolume;
+  bool firstPlay;
 
   QMediaPlayer* m_player;
   QVideoWidget* m_vw;
